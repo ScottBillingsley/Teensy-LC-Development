@@ -45,7 +45,7 @@
                             B   3.3 Volts
                             C   GND
                             D   Program
-                            E   E30 DAC Out
+                            E   E30 A12 DAC Out
 
                  Pins:
                  Teensy   Function
