@@ -120,8 +120,7 @@ void dac_begin() {
 }
 
 inline void dac_write(uint16_t val) {
-  DAC0_DAT0H = val >> 8;
-  DAC0_DAT0L = val & 0x00ff;
+  *(int16_t *)&(DAC0_DAT0L) = val;
 }
 
 /******************************************************************/
