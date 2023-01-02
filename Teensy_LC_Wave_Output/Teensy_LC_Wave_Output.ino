@@ -120,8 +120,6 @@ volatile uint32_t mIcnt;
 /* Hold the output sample */
 volatile uint16_t out_sample;
 
-volatile boolean new_data = false;
-
 /**************************  Functions ****************************/
 void flextimer_begin() {
   /* Clear TPM0_SC register */
