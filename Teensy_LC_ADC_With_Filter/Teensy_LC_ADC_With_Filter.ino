@@ -178,6 +178,7 @@ void loop() {
   if (adc->adc0->isComplete()) {
     /* Read the sample, adc->adc0->analogRead(readPin) */
     adc_array[adc_count] = adc->adc0->readSingle();
+    /* Filter the sample and store in the filtered array */
     filter(adc_count);
     /* Print the filtered sample to the Serial port */
     for(byte x = 0; x < ADC_MAX; x ++){
