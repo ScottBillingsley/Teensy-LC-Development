@@ -2,7 +2,7 @@
                        Teensy LC Wave Output
                       Vernon Billingsley c2023
 
-                  Output a wave on the build in DAC using
+                  Output a wave on the built in DAC using
                   a FlexTimer for timing...
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
