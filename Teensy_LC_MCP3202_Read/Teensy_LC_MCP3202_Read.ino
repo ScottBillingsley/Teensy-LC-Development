@@ -127,13 +127,13 @@
 
 /* MCP3202 Defines */
 /* Single channel read on chaanel 0 */
-#define SingleChannel0 0b11010000
+#define SingleChannel0 0b10100000
 /* Single channel read on chaanel 1 */
-#define SingleChannel1 0b11110000
+#define SingleChannel1 0b11100000
 /* Differential channel read CH0 as +ve, CH1 as -ve */
-#define DiffChannel0 0b10010000
+#define DiffChannel0 0b00100000
 /* Differential channel read CH0 as -ve, CH1 as +ve */
-#define DiffChannel1 0b10110000
+#define DiffChannel1 0b01100000
 
 /* Define the Chip Select pin */
 #define CS 10
@@ -144,26 +144,30 @@ uint16_t running_average;
 
 /**************************  Functions ****************************/
 uint16_t read_mcp3202(uint8_t mode) {
+  uint8_t HIGH_BYTE = 0;
+  uint8_t LOW_BYTE = 0;
   uint16_t out_word = 0;
   /* Begin transaction */
   /* 1.5 mHz clock speed, datasheet page 3 */
   SPI.beginTransaction(SPISettings(1500000, MSBFIRST, SPI_MODE3));
   /* Take the chip select LOW to begin */
   digitalWrite(CS, LOW);
+  /* Send 7 leading Zeros and a Strat bit, datasheet page 17 */
+  LOW_BYTE = SPI.transfer(0x01);
   /* Read the HIGH byte from the '3202 */
-  uint8_t HIGH_BYTE = SPI.transfer(mode);
+  HIGH_BYTE = SPI.transfer(mode);
   /* Read the LOW byte */
-  uint8_t LOW_BYTE = SPI.transfer(0);
+  LOW_BYTE = SPI.transfer(0);
   /* Take the chip select HIGH */
   digitalWrite(CS, HIGH);
   /* End the transaction */
   SPI.endTransaction();
   /* Get the HIGH nibble and place it in the out word */
-  out_word = (HIGH_BYTE & 0x0f);
+  out_word = (HIGH_BYTE & 0x0f) << 8;
   /* Place the LOW byte in the out word */
-  out_word = (out_word << 8) | LOW_BYTE;
+  out_word = out_word | LOW_BYTE;
   /* Return the out word */
-  return out_word;
+  return out_word ;
 }
 
 /******************************************************************/
