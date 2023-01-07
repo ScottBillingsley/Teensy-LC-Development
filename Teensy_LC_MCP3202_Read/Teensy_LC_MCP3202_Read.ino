@@ -147,6 +147,8 @@ uint16_t read_mcp3202(uint8_t mode) {
   uint8_t HIGH_BYTE = 0;
   uint8_t LOW_BYTE = 0;
   uint16_t out_word = 0;
+  /* Stop interrupts */
+  cli();  
   /* Begin transaction */
   /* 1.5 mHz clock speed, datasheet page 3 */
   SPI.beginTransaction(SPISettings(1500000, MSBFIRST, SPI_MODE3));
@@ -162,6 +164,8 @@ uint16_t read_mcp3202(uint8_t mode) {
   digitalWrite(CS, HIGH);
   /* End the transaction */
   SPI.endTransaction();
+  /* Restore interrupts */
+  sei();
   /* Get the HIGH nibble and place it in the out word */
   out_word = (HIGH_BYTE & 0x0f) << 8;
   /* Place the LOW byte in the out word */
